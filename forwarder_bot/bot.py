@@ -1,24 +1,27 @@
 from aiogram import Dispatcher
 from dotenv import load_dotenv
-from project_name.lib import MyPlugin, MyApp, MyHandler
+from forwarder_bot.lib import MyApp, MainHandler
 
 from bot_lib import (
     BotConfig,
     setup_dispatcher,
 )
 from bot_lib.demo import create_bot, run_bot
-from bot_lib.plugins import GptPlugin
 
-plugins = [MyPlugin, GptPlugin]
+plugins = []
 app = MyApp(plugins=plugins)
 bot_config = BotConfig(app=app)
 
 # set up dispatcher
 dp = Dispatcher()
 
-my_handler = MyHandler()
+my_handler = MainHandler()
 handlers = [my_handler]
 setup_dispatcher(dp, bot_config, extra_handlers=handlers)
+
+# bind my handler to main message handler
+
+dp.message.register(my_handler.multi_message_handler)
 
 load_dotenv()
 bot = create_bot()
