@@ -34,7 +34,9 @@ class MainHandler(Handler):
     # 500 ms delay
     MULTI_MESSAGE_DELAY = 0.5
 
-    async def multi_message_handler(self, message: Message, app: MyApp):
+    has_chat_handler = True
+    # multi_message_handler
+    async def chat_handler(self, message: Message, app: MyApp):
         user = self.get_user(message)
         queue = app.user_message_queue[user]
         await queue.put(message)

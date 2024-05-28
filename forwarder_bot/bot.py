@@ -19,10 +19,6 @@ my_handler = MainHandler()
 handlers = [my_handler]
 setup_dispatcher(dp, bot_config, extra_handlers=handlers)
 
-# bind my handler to main message handler
-
-dp.message.register(my_handler.multi_message_handler)
-
 load_dotenv()
 bot = create_bot()
 
