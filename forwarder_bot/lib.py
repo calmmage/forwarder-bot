@@ -69,9 +69,11 @@ class MainHandler(Handler):
             text = await self.compose_messages(messages)
             if self.send_as_file:
                 # chat_id, text, reply_to_message_id=None, filename=None
+                # todo: add caption with '/export' command
+                #  when i implement it
                 await self._send_as_file(message.chat.id, text, filename="messages.txt")
             else:
-                await message.answer(text)
+                await self.reply_safe(text, message)
 
     async def command_handler(self, message: Message, app: MyApp):
         """
@@ -115,9 +117,11 @@ class MainHandler(Handler):
             text = await self.compose_messages(messages)
             if self.send_as_file:
                 # chat_id, text, reply_to_message_id=None, filename=None
+                # todo: add caption with '/export' command
+                #  when i implement it
                 await self._send_as_file(message.chat.id, text, filename="messages.txt")
             else:
-                await message.answer(text)
+                await self.reply_safe(text, message)
 
     # format date as hh:mm
     async def compose_messages(

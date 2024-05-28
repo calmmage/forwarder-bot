@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "forwarder-bot"
-version = "0.0.1"
+version = "0.0.2" # minor improvements and bugfixes
 # Template Version: 0.2.2
 # Add scheduled job example
 description = ""
