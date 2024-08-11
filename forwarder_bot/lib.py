@@ -147,8 +147,12 @@ class MainHandler(Handler):
                     parts += [f"@{user}"]
             if parts:
                 text += " ".join(parts) + ":\n"
-            text += await self._extract_message_text(message)
-            text += separator
+            try:
+                text += await self._extract_message_text(message)
+                text += separator
+            except:
+                logger.exception("Failed to extract message text")
+                text += f"Failed to extract message text\n{separator}"
         return text
 
     def multimessage_command_handler(self, handler):
