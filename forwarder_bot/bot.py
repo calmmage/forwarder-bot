@@ -1,26 +1,23 @@
 from aiogram import Dispatcher
+from bot_lib import BotManager
+from bot_lib.utils import create_bot
 from dotenv import load_dotenv
-from forwarder_bot.lib import MyApp, MainHandler
 
-from bot_lib import (
-    BotConfig,
-    setup_dispatcher,
-)
-from bot_lib.demo import create_bot, run_bot
-
-plugins = []
-app = MyApp(plugins=plugins)
-bot_config = BotConfig(app=app)
-
-# set up dispatcher
-dp = Dispatcher()
-
-my_handler = MainHandler()
-handlers = [my_handler]
-setup_dispatcher(dp, bot_config, extra_handlers=handlers)
+from forwarder_bot.app import MyApp
+from forwarder_bot.handler import MyHandler
 
 load_dotenv()
+
+app = MyApp()
+bot_manager = BotManager(app=app)
+
+dp = Dispatcher()
+
+my_handler = MyHandler()
+handlers = [my_handler]
+bot_manager.setup_dispatcher(dp, extra_handlers=handlers)
+
 bot = create_bot()
 
 if __name__ == "__main__":
-    run_bot(dp, bot)
+    app.run(dp, bot)
