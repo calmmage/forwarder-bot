@@ -2,14 +2,11 @@ import asyncio
 
 from aiogram.types import Message
 from bot_lib import Handler, HandlerDisplayMode
-from calmlib.utils import get_logger
 
 from forwarder_bot.app import MyApp
 
-logger = get_logger(__name__)
 
-
-class MainHandler(Handler):
+class MyHandler(Handler):
     name = "main"
     display_mode = HandlerDisplayMode.FULL
 
@@ -29,6 +26,7 @@ class MainHandler(Handler):
     MULTI_MESSAGE_DELAY = 0.5
 
     has_chat_handler = True
+
     # multi_message_handler
     async def chat_handler(self, message: Message, app: MyApp):
         user = self.get_user(message)
@@ -46,14 +44,12 @@ class MainHandler(Handler):
                 item = await queue.get()
                 messages.append(item)
             if not messages:
-                logger.debug(
-                    "Aborting message processing. Messages got processed by another handler."
-                )
+                self.logger.debug("Aborting message processing. Messages got processed by another handler.")
                 return
             if self.chat_handler_ignore_commands:
                 messages.sort(key=lambda x: x.date)
                 if messages[0].text.startswith("/"):
-                    logger.debug("Found a command, aborting")
+                    self.logger.debug("Found a command, aborting")
                     for message in messages:
                         await queue.put(message)
                     return
@@ -92,20 +88,16 @@ class MainHandler(Handler):
                 item = await queue.get()
                 messages.append(item)
             if not messages:
-                raise Exception(
-                    "Messages got processed by another handler, should not happen with commands"
-                )
+                raise Exception("Messages got processed by another handler, should not happen with commands")
             # test: send user the message count
             # sort messages by timestamps
             messages.sort(key=lambda x: x.date)
 
             # drop first message
             if not messages[0] == message:
-                logger.warning(
-                    f"First message is not the command message: {messages[0].text}"
-                )
+                self.logger.warning(f"First message is not the command message: {messages[0].text}")
             if not messages[0].text.startswith("/"):
-                logger.warning(f"First message is not a command: {messages[0].text}")
+                self.logger.warning(f"First message is not a command: {messages[0].text}")
             messages = messages[1:]
 
             text = await self.compose_messages(messages)
@@ -145,7 +137,7 @@ class MainHandler(Handler):
                 text += await self._extract_message_text(message)
                 text += separator
             except:
-                logger.exception("Failed to extract message text")
+                self.logger.exception("Failed to extract message text")
                 text += f"Failed to extract message text\n{separator}"
         return text
 
@@ -167,9 +159,7 @@ class MainHandler(Handler):
                     item = await queue.get()
                     messages.append(item)
                 if not messages:
-                    raise Exception(
-                        "Messages got processed by another handler, should not happen with commands"
-                    )
+                    raise Exception("Messages got processed by another handler, should not happen with commands")
                 # test: send user the message count
                 await handler.multi_message_handler(messages, app)
 

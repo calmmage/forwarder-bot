@@ -2,9 +2,6 @@ import asyncio
 from collections import defaultdict
 
 from bot_lib import App
-from calmlib.utils import get_logger
-
-logger = get_logger(__name__)
 
 
 class MyApp(App):

@@ -1,5 +1,4 @@
-
-- [ ] migrate to new bot-lib
+- [x] migrate to new bot-lib
 - [ ] add support for photos and videos
 - [ ] add support for unknown users 
 - [ ] add support for more than 10 users
