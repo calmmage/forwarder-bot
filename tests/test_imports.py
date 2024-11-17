@@ -1,8 +1,6 @@
-import pytest
-
-
 def test_imports():
-    from forwarder_bot.lib import MyApp, MainHandler
+    from forwarder_bot.app import MyApp
+    from forwarder_bot.handler import MyHandler
 
     assert MyApp
-    assert MainHandler
+    assert MyHandler
