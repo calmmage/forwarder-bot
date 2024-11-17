@@ -149,12 +149,11 @@ class MyHandler(Handler):
                         date = format_message_date(message.date)
                     parts += [f"[{date}]"]
                 if include_usernames:
-                    name = self.get_name(message, forward_priority=True)
-                    if name:
+                    if message.forward_from:
+                        name = message.forward_from.full_name or message.forward_from.username
                         parts += [name]
                     else:
-                        user = self.get_user(message, forward_priority=True)
-                        parts += [f"@{user}"]
+                        parts += ["unknown user"]
                 if parts:
                     text += " ".join(parts) + ":\n"
                 try:
