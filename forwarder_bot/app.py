@@ -1,12 +1,8 @@
 import asyncio
 from collections import defaultdict
 
-from bot_lib import App
 
-
-class MyApp(App):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
+class App:
+    def __init__(self):
         self.user_message_queue = defaultdict(asyncio.Queue)
         self.user_lock = defaultdict(asyncio.Lock)

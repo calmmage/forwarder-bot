@@ -1,8 +1,9 @@
 from dotenv import load_dotenv
 
 load_dotenv()
-from forwarder_bot.bot import bot, dp, app
+
+from forwarder_bot.bot import bot, dp
 
 
 if __name__ == "__main__":
-    app.run(dp=dp, bot=bot)
+    dp.run_polling(bot)

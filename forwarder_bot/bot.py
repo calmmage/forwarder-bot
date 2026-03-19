@@ -1,23 +1,24 @@
-from aiogram import Dispatcher
-from bot_lib import BotManager
-from bot_lib.utils import create_bot
+import os
+
+from aiogram import Bot, Dispatcher
+from botspot.core.bot_manager import BotManager
 from dotenv import load_dotenv
 
-from forwarder_bot.app import MyApp
-from forwarder_bot.handler import MyHandler
+from forwarder_bot.app import App
+from forwarder_bot.handler import router
 
 load_dotenv()
 
-app = MyApp()
-bot_manager = BotManager(app=app)
+app = App()
 
 dp = Dispatcher()
+dp.include_router(router)
+dp["app"] = app
 
-my_handler = MyHandler()
-handlers = [my_handler]
-bot_manager.setup_dispatcher(dp, extra_handlers=handlers)
+bot = Bot(token=os.environ["TELEGRAM_BOT_TOKEN"])
 
-bot = create_bot()
-
-if __name__ == "__main__":
-    app.run(dp, bot)
+bm = BotManager(
+    bot=bot,
+    error_handler={"enabled": True},
+)
+bm.setup_dispatcher(dp)

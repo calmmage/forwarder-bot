@@ -1,6 +1,7 @@
 def test_imports():
-    from forwarder_bot.app import MyApp
-    from forwarder_bot.handler import MyHandler
+    from forwarder_bot.app import App
+    from forwarder_bot.handler import router, compose_messages
 
-    assert MyApp
-    assert MyHandler
+    assert App
+    assert router
+    assert compose_messages

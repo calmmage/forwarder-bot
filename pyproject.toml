@@ -1,31 +1,70 @@
-[tool.poetry]
+[project]
 name = "forwarder-bot"
-version = "0.0.3" # minor improvements and bugfixes
-# Template Version: 0.2.2
-# Add scheduled job example
+version = "0.1.0"
 description = ""
-authors = ["Petr Lavrov <calmmage@gmail.com>"]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = ">=3.11,<4.0"
-# for stability, use frozen-app-name branch
-calmlib = { git = "https://github.com/calmmage/calmlib.git", branch = "main" }
-bot_lib = { git = "https://github.com/calmmage/bot-lib.git", branch = "main" }
-#calmmage = { git = "https://github.com/calmmage/calmmage.git", branch = "main" }
-pytest = "*"
-# logging
-loguru = "*"
-
-aiogram = "*"
-
-[tool.poetry.group.dev.dependencies]
-jupyter = ">=1.0.0"
-tqdm = "*"
-# pandas = "2.1.0"
-black = "*"
-pre-commit = "*"
+authors = [
+    {name = "Petr Lavrov", email = "petr.b.lavrov@gmail.com"},
+]
+requires-python = "<4.0,>=3.12"
+dependencies = [
+    # for stability, use frozen-app-name branch
+    "calmlib @ git+https://github.com/calmmage/calmlib.git@main",
+    "botspot @ git+https://github.com/calmmage/botspot.git@main",
+    # logging
+    "loguru",
+    "pymongo>=4.16.0",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["forwarder_bot"]
+
+[dependency-groups]
+extras = [
+    "bot_lib @ git+https://github.com/calmmage/bot-lib.git@main",
+]
+
+test = [
+    "pytest>=6",
+    # "pytest-mongodb",
+    "black[jupyter]>=25.1.0",
+    "flake8>=7.1.1",
+    "flake8-docstrings>=1.7.0",
+    "flake8-bugbear>=24.12.12",
+    "flake8-comprehensions>=3.16.0",
+    "flake8-simplify>=0.21.0",
+    "isort>=6.0.0",
+    "vulture>=2.14",
+    "pytest-cov>=6.0.0",
+    "pyupgrade>=3.19.1",
+    "pytest-asyncio>=0.26.0",
+    "pytest-mock>=3.14.0",
+    "pyright>=1.1.401",
+    "ruff>=0.11.11",
+    "lizard>=1.21.2",
+]
+docs = [
+    # "mkdocs>=1.6",
+]
+dev = [
+    # dev / research utils
+    "jupyter>=1.0.0", # Interactive notebooks
+    # "jupyter-nbextensions-configurator",
+    # "jupyter_contrib_nbextensions",
+    "black>=24.0.0", # Code formatter
+    "pre-commit>=3.8.0", # Pre-commit hooks
+    "tqdm", # Progress bars
+    ## data analysis, research
+    # "pandas>=2.0.0",  # Data manipulation and analysis
+    # "seaborn",  # Statistical data visualization
+    # "bokeh",  # Interactive visualizations
+    # "matplotlib",  # Plotting library
+    # "numpy",  # Numerical computing
+]
