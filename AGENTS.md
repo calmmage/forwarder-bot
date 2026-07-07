@@ -1,0 +1,94 @@
+# Deprecated repo guardrail
+
+This repository is archived/frozen as of 2026-07-08.
+
+Do not implement product changes here. The maintained botspot replacement is:
+
+`/Users/petrlavrov/work/projects/formatter-bot`
+
+Use `formatter-bot` for Forwarder/Formatter bot work, including Telegram post mode, AI titles,
+media formatting, and deployment changes.
+
+Only edit this repository to update deprecation/archival metadata.
+
+# OpenAI Codex Instructions
+
+
+
+Imports
+- Always use absolute imports - from repo root
+- Use uv run to ensure imports work
+- Avoid modifying sys.path
+
+Docker compose
+- For projects with interlinked components, include Docker file and a docker-compose.yml
+- Specificaly, that concerns frontend + backend applications or other multi-component projects
+
+Monorepo selective commits:
+
+```bash
+git add -A
+git commit <file1> <file2> <file3> -m "message"
+```
+
+Step 1 stages everything, Step 2 commits only specified files. Does NOT unstage other files, does NOT require stashing.
+
+Alternatives:
+- lazygit: Navigate → Space to stage → `c` to commit
+- PyCharm: Commit window (Cmd+K) → select files → commit
+- GUI tools: GitHub Desktop, GitKraken, Fork
+
+We are writing instructions for a smart user, that can figure everything out, has strong intuition and can easily guess reasonable things, given a few hints.
+
+Therefore:
+1) NO HEADERS
+2) BE EXTREMELY CONCISE, JUST MENTION KEY FUNCTIONS / FOLDERS BY NAME, DO NOT GO INTO VERBOSE DETAILS OR YAPPING
+
+Preserve original text and phrasing provided by the user in chats as much as possible.
+
+Makefile - add after prototype, 1-2 essential commands per component max
+
+Minimal prototyping flow
+For ~/calmmage/experiments/prototypes folder
+- Before implementing a new feature - write a minimal working standalone prototype / demo - and test it.
+- After the feature is working - update the existing code with the working code
+
+# Next.js Style (shadcn, v0.dev-inspired)
+
+Build front-ends in Next.js with:
+- App Router, Server Components by default; Client Components only when needed.
+- UI components: use shadcn patterns for UIs.
+
+uv for python:
+- initialize pyproject.toml if missing.
+    - use `fix_repo` alias
+- uv run for execution
+- uv add for dependencies
+
+# Python Libraries
+- pathlib: Filesystem paths with `Path`.
+- dotenv: Load `~/.env` non-secret config. Secrets are in `~/.env.enc` — use `find_env_key()`.
+- httpx: HTTP client (sync/async) with timeouts.
+- use loguru with calmlib.logging.setup_logger() settings - avoid prints
+- typer for CLI, argparse for simple script flags
+- rich: Rich terminal output (tables, colors).
+- pydantic / pydantic_settings - avoid dataclasses and unstructured Dicts
+- fastapi
+- tqdm
+
+- print_exc - use to show full tracebacks
+- avoid excessive try/except nesting or blocks, always handle errors on external level, unless explicitly
+  requested[6_python_libs.md](6_python_libs.md)
+
+- Type safety - use pydantic, type hints
+- Clean patterns - pathlib over os.path, loguru over print
+- Simplicity
+    - Implement minimal necessary functionality
+    - Avoid major refactorings unless explicitly requested
+- Modularity with utils
+    - Avoid nesting as much as possible - create separate service util functions (private - _func)
+    - Avoid code duplication - instead, create reusable utils
+    
+- CLIs with `typer`;
+- Keep `cli.py` colocated under each tool directory.
+- Provide short docstrings and a quick usage example per command.

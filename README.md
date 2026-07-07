@@ -1,3 +1,10 @@
+# Deprecated
+
+This repo is archived/frozen as of 2026-07-08.
+
+Use `/Users/petrlavrov/work/projects/formatter-bot` for the maintained botspot-based
+Forwarder/Formatter bot.
+
 # python-project-template
 
 ## setup
